@@ -1,7 +1,7 @@
 ﻿using Bookify.Domain.Bookings;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Booking.Application;
+namespace Bookify.Application;
 public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
