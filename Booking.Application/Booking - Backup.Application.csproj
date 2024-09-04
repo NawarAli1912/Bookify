@@ -6,12 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MediatR" Version="12.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\src\Bookify.Domain\Bookify.Domain.csproj" />
-  </ItemGroup>
-
 </Project>
