@@ -15,5 +15,7 @@ public sealed record Rating
     {
         if (value < 1 || value > 5)
             return Result.Failure<Rating>(Invalid);
+
+        return new Rating(value);
     }
 }
