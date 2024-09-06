@@ -1,5 +1,6 @@
 ﻿using Bookify.Domain.Abstraction;
 using Bookify.Domain.Bookings;
+using Bookify.Domain.Reviews.Events;
 
 namespace Bookify.Domain.Reviews;
 public sealed class Review : Entity
