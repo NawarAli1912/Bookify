@@ -26,6 +26,12 @@ internal sealed class BookingConfigurations : IEntityTypeConfiguration<Booking>
             .HasConversion(currency => currency.Code, code => Currency.FromCode(code));
         });
 
+        builder.OwnsOne(booking => booking.CleaningFee, priceBuilder =>
+        {
+            priceBuilder.Property(money => money.Currency)
+            .HasConversion(currency => currency.Code, code => Currency.FromCode(code));
+        });
+
         builder.OwnsOne(booking => booking.TotalPrice, priceBuilder =>
         {
             priceBuilder.Property(money => money.Currency)

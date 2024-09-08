@@ -59,4 +59,6 @@ public sealed class Review : Entity
 
         return review;
     }
+
+    private Review() { }
 }

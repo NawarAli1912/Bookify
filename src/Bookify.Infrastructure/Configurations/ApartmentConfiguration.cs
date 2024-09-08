@@ -15,7 +15,7 @@ internal sealed class ApartmentConfiguration : IEntityTypeConfiguration<Apartmen
         builder.OwnsOne(a => a.Address);
 
         builder.Property(a => a.Name)
-            .HasMaxLength(200)
+            .HasMaxLength(2000)
             .HasConversion(name => name.Value, value => new Name(value));
 
         builder.Property(a => a.Description)

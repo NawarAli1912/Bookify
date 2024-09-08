@@ -31,4 +31,6 @@ public sealed class User : Entity
 
         return user;
     }
+
+    private User() { }
 }
