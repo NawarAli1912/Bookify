@@ -1,11 +1,13 @@
 ﻿using Bookify.Application.Bookings.GetBooking;
 using Bookify.Application.Bookings.ReserveBooking;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookify.Api.Controllers.Bookings;
 [ApiController]
 [Route("api/bookings")]
+[Authorize]
 public class BookingsController : ControllerBase
 {
     private readonly ISender _sender;
