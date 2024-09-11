@@ -21,6 +21,7 @@ internal sealed class CustomClaimTransformation : IClaimsTransformation
         {
             return principal;
         }
+
         using var serviceScope = _serviceProvider.CreateScope();
         var authorizationService = serviceScope.ServiceProvider.GetRequiredService<AuthorizationService>();
 
