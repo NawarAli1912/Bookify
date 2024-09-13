@@ -44,5 +44,10 @@ public sealed class User : Entity
         IdentityId = identityId;
     }
 
+    public void AssignRole(Role role)
+    {
+        _roles.Add(role);
+    }
+
     private User() { }
 }

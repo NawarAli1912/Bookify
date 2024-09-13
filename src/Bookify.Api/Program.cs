@@ -20,7 +20,10 @@ if (app.Environment.IsDevelopment())
     app.ApplyMigrations();
 
     // app.SeedData();
+
 }
+
+await app.SeedAdmin();
 
 app.UseHttpsRedirection();
 

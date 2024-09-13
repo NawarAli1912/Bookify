@@ -216,6 +216,11 @@ namespace Bookify.Infrastructure.Migrations
                         {
                             Id = 1,
                             Name = "Registered"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Admin"
                         });
                 });
 
