@@ -39,6 +39,8 @@ app.UseSerilogRequestLogging();
 
 app.UseCustomExceptionHandler();
 
+app.UseRequestContextLogging();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
