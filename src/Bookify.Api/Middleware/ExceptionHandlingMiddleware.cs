@@ -23,18 +23,18 @@ public class ExceptionHandlingMiddleware
         {
             await _next(context);
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            _logger.LogError(ex, "Exception occurred: {Message}", ex.Message);
+            _logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
 
-            var exceptionDetails = GetExceptionDetails(ex);
+            var exceptionDetails = GetExceptionDetails(exception);
 
             var problemDetails = new ProblemDetails
             {
                 Status = exceptionDetails.Status,
                 Type = exceptionDetails.Type,
                 Title = exceptionDetails.Title,
-                Detail = exceptionDetails.Detail
+                Detail = exceptionDetails.Detail,
             };
 
             if (exceptionDetails.Errors is not null)
@@ -48,24 +48,22 @@ public class ExceptionHandlingMiddleware
         }
     }
 
-    private static ExceptionDetails GetExceptionDetails(Exception ex)
+    private static ExceptionDetails GetExceptionDetails(Exception exception)
     {
-        return ex switch
+        return exception switch
         {
             ValidationException validationException => new ExceptionDetails(
                 StatusCodes.Status400BadRequest,
                 "ValidationFailure",
                 "Validation error",
-                "One or more validation error has occurred",
-                validationException.Errors
-                ),
+                "One or more validation errors has occurred",
+                validationException.Errors),
             _ => new ExceptionDetails(
                 StatusCodes.Status500InternalServerError,
                 "ServerError",
                 "Server error",
                 "An unexpected error has occurred",
-                null
-                )
+                null)
         };
     }
 

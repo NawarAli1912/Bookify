@@ -12,6 +12,8 @@ builder.Host.UseSerilog((context, configurations) =>
     configurations.ReadFrom.Configuration(context.Configuration);
 });
 
+builder.Services.AddProblemDetails();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -35,11 +37,11 @@ await app.SeedAdmin();
 
 app.UseHttpsRedirection();
 
+app.UseRequestContextLogging();
+
 app.UseSerilogRequestLogging();
 
 app.UseCustomExceptionHandler();
-
-app.UseRequestContextLogging();
 
 app.UseAuthentication();
 

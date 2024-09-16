@@ -1,11 +1,17 @@
 ﻿using Bookify.Application.Abstractions.Exceptions;
 using Bookify.Domain.Abstraction;
+using Bookify.Infrastructure.Outbox;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Bookify.Infrastructure;
 public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 {
+    private static readonly JsonSerializerSettings JsonSerializerSettings = new()
+    {
+        TypeNameHandling = TypeNameHandling.All,
+    };
     private readonly IPublisher _publisher;
     public ApplicationDbContext(DbContextOptions options, IPublisher publisher)
         : base(options)
@@ -24,9 +30,9 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
     {
         try
         {
-            var result = await base.SaveChangesAsync(cancellationToken);
+            AddDomainEventAsOutboxMessages();
 
-            await PublishDomainEventAsync();
+            var result = await base.SaveChangesAsync(cancellationToken);
 
             return result;
         }
@@ -36,7 +42,7 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
         }
     }
 
-    private async Task PublishDomainEventAsync()
+    private void AddDomainEventAsOutboxMessages()
     {
         var domainEvents = ChangeTracker
             .Entries<Entity>()
@@ -49,11 +55,14 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 
                 return domainEvents;
             })
+            .Select(domainEvent => new OutboxMessage(
+                Guid.NewGuid(),
+                DateTime.UtcNow,
+                domainEvent.GetType().Name,
+                JsonConvert.SerializeObject(domainEvent, JsonSerializerSettings))
+                )
             .ToList();
 
-        foreach (var domainEvent in domainEvents)
-        {
-            await _publisher.Publish(domainEvent);
-        }
+        AddRange(domainEvents);
     }
 }
