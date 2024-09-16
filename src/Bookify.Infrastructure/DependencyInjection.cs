@@ -90,6 +90,7 @@ public static class DependencyInjection
             options
                 .UseNpgsql(connectionString)
                 .UseSnakeCaseNamingConvention();
+            options.EnableSensitiveDataLogging();
         });
 
         services.AddScoped<IUserRepository, UserRepository>();
@@ -126,6 +127,5 @@ public static class DependencyInjection
         services.AddStackExchangeRedisCache(options => options.Configuration = connectionString);
 
         services.AddSingleton<ICacheService, CacheService>();
-
     }
 }

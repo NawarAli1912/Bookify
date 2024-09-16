@@ -50,8 +50,8 @@ namespace Bookify.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "permission",
-                columns: new[] { "id", "name" },
-                values: new object[] { 1, "users:read" });
+                columns: ["id", "name"],
+                values: [1, "users:read"]);
 
             migrationBuilder.InsertData(
                 table: "permission_role",
@@ -62,8 +62,6 @@ namespace Bookify.Infrastructure.Migrations
                 name: "ix_permission_role_role_id",
                 table: "permission_role",
                 column: "role_id");
-
-
         }
 
         /// <inheritdoc />

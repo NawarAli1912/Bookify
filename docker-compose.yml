@@ -7,10 +7,13 @@ services:
       context: .
       dockerfile: src/Bookify.Api/Dockerfile
     depends_on:
-        - bookify-db
+      - bookify-db
+      - bookify-idp
+      - bookify-redis
+      - bookify-seq
     ports:
-        - 5000:5000
-        - 5001:5001
+      - 5000:5000
+      - 5001:5001
 
   bookify-db:
     image: postgres:latest
@@ -42,4 +45,11 @@ services:
     restart: always
     ports:
       - 6379:6379
-  
+  bookify-seq:
+    image: datalust/seq:latest
+    container_name: Bookify.Seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 8082:80

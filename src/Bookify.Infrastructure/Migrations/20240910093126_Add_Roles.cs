@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -51,8 +50,8 @@ namespace Bookify.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "roles",
-                columns: new[] { "id", "name" },
-                values: new object[] { 1, "Registered" });
+                columns: ["id", "name"],
+                values: [1, "Registered"]);
 
             migrationBuilder.CreateIndex(
                 name: "ix_role_user_users_id",

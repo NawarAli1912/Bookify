@@ -2,6 +2,7 @@
 public sealed class Permission
 {
     public static readonly Permission UserRead = new(1, "users:read");
+    public static readonly Permission ManageAccess = new(2, "manage:access");
 
     public Permission(int id, string name)
     {

@@ -1,4 +1,5 @@
 ﻿using Bookify.Application.Users.GetLoggedinUser;
+using Bookify.Application.Users.ListPermissions;
 using Bookify.Application.Users.LoginUser;
 using Bookify.Application.Users.RegisterUser;
 using Bookify.Infrastructure.Authorization;
@@ -16,6 +17,16 @@ public class UsersController : ControllerBase
     public UsersController(ISender sender)
     {
         _sender = sender;
+    }
+
+    [HttpGet("permissions")]
+    public async Task<IActionResult> ListPermissions(CancellationToken cancellationToken)
+    {
+        var query = new ListPermissionsQuery();
+
+        var result = await _sender.Send(query, cancellationToken);
+
+        return Ok(result.Value);
     }
 
     [HttpGet("me")]

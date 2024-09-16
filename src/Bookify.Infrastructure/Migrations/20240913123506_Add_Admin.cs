@@ -12,8 +12,8 @@ namespace Bookify.Infrastructure.Migrations
         {
             migrationBuilder.InsertData(
                 table: "roles",
-                columns: new[] { "id", "name" },
-                values: new object[] { 2, "Admin" });
+                columns: ["id", "name"],
+                values: [2, "Admin"]);
         }
 
         /// <inheritdoc />

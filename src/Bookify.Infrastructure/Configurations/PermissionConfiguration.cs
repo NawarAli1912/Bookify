@@ -12,5 +12,6 @@ internal class PermissionConfiguration : IEntityTypeConfiguration<Permission>
         builder.HasKey(p => p.Id);
 
         builder.HasData(Permission.UserRead);
+        builder.HasData(Permission.ManageAccess);
     }
 }
