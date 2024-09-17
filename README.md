@@ -60,11 +60,8 @@ The **Bookify** API follows Clean Architecture principles with a clear separatio
 
 ### Prerequisites
 
-- [.NET 6+](https://dotnet.microsoft.com/download/dotnet/6.0)
-- [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/install/)
-- [PostgreSQL](https://www.postgresql.org/download/)
-- [Redis](https://redis.io/download)
-- [Seq](https://datalust.co/seq)
+- [.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [Docker](https://www.docker.com/get-started)
 
 ### Running the Application
 
