@@ -6,7 +6,7 @@ using Dapper;
 
 namespace Bookify.Application.Apartments.SearchApartmentsByDate;
 internal sealed class SearchApartmentsByDateQueryHandler
-    : IQueryHandler<SearchApartmentsByDateQuery, IReadOnlyList<ApartmentResponse>>
+    : IPagedQueryHandler<SearchApartmentsByDateQuery, ApartmentResponse>
 {
     private static readonly int[] ActiveBookingStatuses = [
         (int)BookingStatus.Reserved,
@@ -20,7 +20,7 @@ internal sealed class SearchApartmentsByDateQueryHandler
         _sqlConnectionFactory = sqlConnectionFactory;
     }
 
-    public async Task<Result<IReadOnlyList<ApartmentResponse>>> Handle(SearchApartmentsByDateQuery request, CancellationToken cancellationToken)
+    public async Task<PagedResult<ApartmentResponse>> Handle(SearchApartmentsByDateQuery request, CancellationToken cancellationToken)
     {
         if (request.StartDate > request.EndDate)
         {
@@ -30,8 +30,8 @@ internal sealed class SearchApartmentsByDateQueryHandler
         using var connection = _sqlConnectionFactory.CreateConnection();
 
         const string sql = """
-            SELECT  
-            a.id AS Id,
+            SELECT
+                a.id AS Id,
                 a.name AS Name,
                 a.description AS Description,
                 a.price_amount AS Price,
@@ -44,13 +44,16 @@ internal sealed class SearchApartmentsByDateQueryHandler
             FROM apartments AS a
             WHERE NOT EXISTS
             (
-                SELECT 1 
-                FROM bookins AS b
-                b.apartment_id = a.id AND
-                b.duration_start <= @EndDate AND
-                b.duration_end >= @StartDate AND
-                b.status = ANY(@ActiveBookingStatuses)
+                SELECT 1
+                FROM bookings AS b
+                WHERE
+                    b.apartment_id = a.id AND
+                    b.duration_start <= @EndDate AND
+                    b.duration_end >= @StartDate AND
+                    b.status = ANY(@ActiveBookingStatuses)
             )
+            ORDER BY a.id
+            LIMIT @PageSize OFFSET @PageSize * (@PageNumber - 1);
             """;
 
         var apartments = await connection.QueryAsync<ApartmentResponse, AddressResponse, ApartmentResponse>(
@@ -65,7 +68,9 @@ internal sealed class SearchApartmentsByDateQueryHandler
             {
                 request.StartDate,
                 request.EndDate,
-                ActiveBookingStatuses
+                ActiveBookingStatuses,
+                request.PageSize,
+                request.PageNumber
             },
             splitOn: "Country");
 

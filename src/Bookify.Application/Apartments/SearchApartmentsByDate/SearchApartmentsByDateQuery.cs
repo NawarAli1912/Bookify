@@ -3,4 +3,6 @@
 namespace Bookify.Application.Apartments.SearchApartmentsByDate;
 public sealed record SearchApartmentsByDateQuery(
     DateOnly StartDate,
-    DateOnly EndDate) : IQuery<IReadOnlyList<ApartmentResponse>>;
+    DateOnly EndDate,
+    int PageNumber,
+    int PageSize) : IPagedQuery<ApartmentResponse>;

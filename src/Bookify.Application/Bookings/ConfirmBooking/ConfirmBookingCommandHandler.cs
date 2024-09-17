@@ -29,7 +29,7 @@ internal sealed class ConfirmBookingCommandHandler : ICommandHandler<ConfirmBook
 
         if (booking is null)
         {
-            return Result.Failure(BookingErrors.NotFound);
+            return BookingErrors.NotFound;
         }
 
         var result = booking.Confirm(_dateTimeProvider.UtcNow);

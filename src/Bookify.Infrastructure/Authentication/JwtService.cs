@@ -47,14 +47,14 @@ public sealed class JwtService : IJwtService
 
             if (authorizationToken is null)
             {
-                return Result.Failure<string>(AuthenticationFailed);
+                return AuthenticationFailed;
             }
 
             return authorizationToken.AccessToken;
         }
         catch (HttpRequestException)
         {
-            return Result.Failure<string>(AuthenticationFailed);
+            return AuthenticationFailed;
         }
     }
 }

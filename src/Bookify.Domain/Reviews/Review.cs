@@ -43,7 +43,7 @@ public sealed class Review : Entity
     {
         if (booking.Status != BookingStatus.Completed)
         {
-            return Result.Failure<Review>(ReviewErrors.NotEligible);
+            return ReviewErrors.NotEligible;
         }
 
         var review = new Review(
