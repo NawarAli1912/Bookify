@@ -39,8 +39,7 @@ internal sealed class SearchApartmentsByDateQueryHandler
                 a.address_country AS Country,
                 a.address_state AS State,
                 a.address_zip_code AS ZipCode,
-                a.address_city AS City,
-                a.address_street AS Street
+                a.address_city AS City
             FROM apartments AS a
             WHERE NOT EXISTS
             (
@@ -66,8 +65,8 @@ internal sealed class SearchApartmentsByDateQueryHandler
             },
             new
             {
-                request.StartDate,
-                request.EndDate,
+                StartDate = request.StartDate.ToDateTime(TimeOnly.MinValue),
+                EndDate = request.EndDate.ToDateTime(TimeOnly.MinValue),
                 ActiveBookingStatuses,
                 request.PageSize,
                 request.PageNumber

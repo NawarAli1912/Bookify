@@ -1,4 +1,5 @@
-﻿using Bookify.Application.Apartments.SearchApartmentsByDate;
+﻿using Bookify.Api.Abstraction;
+using Bookify.Application.Apartments.SearchApartmentsByDate;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,6 @@ public class ApartmentsController : ControllerBase
 
         var result = await _sender.Send(query, cancellationToken);
 
-        return Ok(result);
+        return Ok(PagedResponse<ApartmentResponse>.FromPagedResult(result));
     }
 }
