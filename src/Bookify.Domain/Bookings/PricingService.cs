@@ -2,7 +2,7 @@
 using Bookify.Domain.Shared;
 
 namespace Bookify.Domain.Bookings;
-public sealed class PricingService
+public class PricingService
 {
     public PricingDetails CalculatePrice(Apartment apartment, DateRange period)
     {
@@ -17,7 +17,6 @@ public sealed class PricingService
         {
             percentageUpCharge += amenity switch
             {
-
                 Amenity.GardenView or Amenity.MountainView => 0.05m,
                 Amenity.AirConditioning => 0.01m,
                 Amenity.Parking => 0.01m,
@@ -34,6 +33,8 @@ public sealed class PricingService
         }
 
         var totalPrice = Money.Zero(currency);
+
+        totalPrice += priceForPeriod;
 
         if (!apartment.CleaningFee.IsZero())
         {
